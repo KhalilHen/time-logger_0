@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'firebase_options.dart';
 
+import 'homepage.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
@@ -33,6 +34,18 @@ class MyApp extends StatelessWidget {
         );
 
         if (userCredential.user != null) {
+
+// This doesn't work also:
+//Navigator.pushReplacement(
+//           context,
+//            MaterialPageRoute(builder: (context) => Homepage()),
+  //        );
+Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Homepage()),
+          );
+          //This doesn't work Navigator.of(context).push( MaterialPageRoute(builder: (context) => Homepage()),);
+
           print('Login successful');
       ScaffoldMessenger(child: Text('Login successful'));
         } else {
@@ -59,6 +72,7 @@ class MyApp extends StatelessWidget {
         body: Center(
           child: SingleChildScrollView(
             child: Form(
+              
               key: _key,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -97,13 +111,22 @@ class MyApp extends StatelessWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () => _login(),
+  style: ElevatedButton.styleFrom(
+backgroundColor: Colors.green,
+  ),
                         child: Text(
                           'Login',
+
+
                           style: TextStyle(color: Colors.white, fontSize: 20),
+                          
                         ),
                       ),
                       SizedBox(width: 40),
                       ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+backgroundColor: Colors.cyan,
+  ),
                         onPressed: null,
                         child: Text(
                           'Sign up',
