@@ -13,13 +13,43 @@ void main() async {
   } catch (e) {
     print('Failed to initialize Firebase: $e');
   }
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+   MyApp({super.key});
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
-  @override
+
+
+  Future<void> _login() async {
+    if (_key.currentState!.validate()) {
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+
+        if (userCredential.user != null) {
+          print('Login successful');
+      ScaffoldMessenger(child: Text('Login successful'));
+        } else {
+
+          print('Oops there went something wrong');
+        }
+      } catch (e) {
+        print('Login failed: $e');
+
+      ScaffoldMessenger(child: Text('Login successful'));
+
+          SnackBar(content: Text('Login failed: $e'));
+        
+      }
+    }
+  }
+@override 
   Widget build(BuildContext context) {
     final primaryBackground = Colors.blue;
 
@@ -27,109 +57,83 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         backgroundColor: primaryBackground,
         body: Center(
-
-  heightFactor: MediaQuery.of(context).size.height * 0.7,
-widthFactor: MediaQuery.of(context).size.width * 0.9,
-
-  child: Column(
-
-
-    //TODO give this a max height
- mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
- 
-//  crossAxisAlignment: CrossAxisAlignment.end,
- 
-children: [
-
-Text('Login',
-
-
-
-style: TextStyle(color: Colors.white, fontSize: 30),
-
-),
-
-     TextFormField(
-                        // controller: emailController,
-                        // validator: validateEmail,
-                        decoration: const InputDecoration(
-                          labelText: 'Enter email',
-                          border: OutlineInputBorder(),
-                        ),
-
-
+          child: SingleChildScrollView(
+            child: Form(
+              key: _key,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    'Login',
+                    style: TextStyle(color: Colors.white, fontSize: 30),
+                  ),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: TextFormField(
+                      controller: emailController,
+                      validator: validateEmail,
+                      decoration: const InputDecoration(
+                        labelText: 'Enter email',
+                        border: OutlineInputBorder(),
                       ),
-
-
-TextFormField(
-
-
-     decoration: const InputDecoration(
-                          labelText: 'Enter passsword',
-                          border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: TextFormField(
+                      controller: passwordController,
+                      validator: validatePassword,
+                      decoration: const InputDecoration(
+                        labelText: 'Enter password',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () => _login(),
+                        child: Text(
+                          'Login',
+                          style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
-
-),
-
-
-
-
-
-Row(
-
-  mainAxisAlignment: MainAxisAlignment.center,
-  
-children: [
-
-
-  ElevatedButton(onPressed: null, child: Text(
-
-
-    style:
-    
-    TextStyle(color:Colors.white,fontSize:20),
-    
-    'Login')),
-
-    SizedBox(width: 40),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  ElevatedButton(onPressed: null, child: Text(
-
-
-    style:
-    
-    TextStyle(color:Colors.white,fontSize:20),
-    
-    'sign up'))
-
-
-
-],
-),
-
-],
-
-  ),
-
+                      ),
+                      SizedBox(width: 40),
+                      ElevatedButton(
+                        onPressed: null,
+                        child: Text(
+                          'Sign up',
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
+    
+    
     );
   }
 }
 
 
+
+String? validateEmail(String? formEmail) {
+  if (formEmail == null || formEmail.isEmpty) return 'Invalid Email address';
+  return null;
+}
+
+String? validatePassword(String? formPassword) {
+  if (formPassword == null || formPassword.isEmpty) return 'Invalid password';
+
+
+  return null;
+}
