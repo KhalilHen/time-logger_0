@@ -21,47 +21,30 @@ class MyApp extends StatelessWidget {
    MyApp({super.key});
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  final GlobalKey<FormState>  _key = GlobalKey<FormState>();
 
 
 
   Future<void> _login() async {
-    if (_key.currentState!.validate()) {
-      try {
-        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text,
-        );
+  if (_key.currentState!.validate()) {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
 
-        if (userCredential.user != null) {
-
-// This doesn't work also:
-//Navigator.pushReplacement(
-//           context,
-//            MaterialPageRoute(builder: (context) => Homepage()),
-  //        );
-Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => Homepage()),
-          );
-          //This doesn't work Navigator.of(context).push( MaterialPageRoute(builder: (context) => Homepage()),);
-
-          print('Login successful');
-      ScaffoldMessenger(child: Text('Login successful'));
-        } else {
-
-          print('Oops there went something wrong');
-        }
-      } catch (e) {
-        print('Login failed: $e');
-
-      ScaffoldMessenger(child: Text('Login successful'));
-
-          SnackBar(content: Text('Login failed: $e'));
-        
+      if (userCredential.user != null) {
+       
+        print('Login successful');
+      } else {
+        print('Oops there went something wrong');
       }
+    } catch (e) {
+      print('Login failed: $e');
+      SnackBar(content: Text('Login failed: $e'));
     }
   }
+}
 @override 
   Widget build(BuildContext context) {
     final primaryBackground = Colors.blue;
@@ -127,7 +110,13 @@ backgroundColor: Colors.green,
                           style: ElevatedButton.styleFrom(
 backgroundColor: Colors.cyan,
   ),
-                        onPressed: null,
+                        onPressed: () {
+                          
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => HomePage()),
+                          );
+                        },
                         child: Text(
                           'Sign up',
                           style: TextStyle(color: Colors.white, fontSize: 20),
