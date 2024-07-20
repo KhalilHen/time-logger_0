@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
   final GlobalKey<FormState>  _key = GlobalKey<FormState>();
 
 
-
   Future<void> _login() async {
   if (_key.currentState!.validate()) {
     try {
@@ -35,6 +34,9 @@ class MyApp extends StatelessWidget {
 
       if (userCredential.user != null) {
        
+
+
+        
         print('Login successful');
       } else {
         print('Oops there went something wrong');
@@ -47,15 +49,19 @@ class MyApp extends StatelessWidget {
 }
 @override 
   Widget build(BuildContext context) {
+    
     final primaryBackground = Colors.blue;
 
     return MaterialApp(
+      //This didn't solve the navigation issuev 
+// routes: {
+//    '/homepage': (context) => const Homepage(), 
+// }, 
       home: Scaffold(
         backgroundColor: primaryBackground,
         body: Center(
           child: SingleChildScrollView(
             child: Form(
-              
               key: _key,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -70,6 +76,7 @@ class MyApp extends StatelessWidget {
                     child: TextFormField(
                       controller: emailController,
                       validator: validateEmail,
+                      
                       decoration: const InputDecoration(
                         labelText: 'Enter email',
                         border: OutlineInputBorder(),
@@ -80,9 +87,12 @@ class MyApp extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24.0),
                     child: TextFormField(
+                                            obscureText: true,
+
                       controller: passwordController,
                       validator: validatePassword,
                       decoration: const InputDecoration(
+                        
                         labelText: 'Enter password',
                         border: OutlineInputBorder(),
                       ),
@@ -111,17 +121,33 @@ backgroundColor: Colors.green,
 backgroundColor: Colors.cyan,
   ),
                         onPressed: () {
-                          
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomePage()),
-                          );
+
+                        
                         },
                         child: Text(
                           'Sign up',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ),
+                    ElevatedButton(onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePage()),
+                      );
+        
+        //These  options i also tried but didn't solve it
+         
+          //                    Navigator.of(context).pushReplacement(
+          //   MaterialPageRoute(
+          //     builder: (context) => const Homepage    (),
+          //   ),
+          // );
+      // Navigator.push(
+      //                       context,
+      //                       MaterialPageRoute(builder: (context) => HomePage()),
+      //                     );
+
+                    }, child: Text('Home page redirect'))
                     ],
                   ),
                 ],
@@ -136,6 +162,8 @@ backgroundColor: Colors.cyan,
   }
 }
 
+
+RegExp pattern = RegExp(r'^[\s\S]{8,}$'); // At least 8 characters
 
 
 String? validateEmail(String? formEmail) {
