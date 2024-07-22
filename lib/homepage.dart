@@ -1,62 +1,111 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+
+
+
+
+
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Home Page'),
+    return MaterialApp(
+      title: 'Login',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Welcome to the Home Page!',
-              style: TextStyle(fontSize: 24),
-            ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => OtherPage()),
-                );
-              },
-              child: Text('Go to Other Page'),
-            ),
-          ],
-        ),
-      ),
+      home: HomePage(),
     );
   }
 }
 
-class OtherPage extends StatelessWidget {
+
+class HomePage extends StatelessWidget {
   @override
+      final primaryBackground = Colors.blue;
+
   Widget build(BuildContext context) {
     return Scaffold(
+            backgroundColor: primaryBackground,
+
       appBar: AppBar(
-        title: Text('Other Page'),
+        backgroundColor: Colors.grey,
+        title: Text('Home Page'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Welcome to the Other Page!',
-              style: TextStyle(fontSize: 24),
-            ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Go Back'),
-            ),
-          ],
-        ),
+      body: Container(
+
+        height: double.infinity,
+        width: double.infinity,
+  // alignment: Alignment.center,        
+       child: Column(
+        
+        
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+
+
+Text('Welcome',
+
+
+
+  style: TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w300,
+    color: Colors.white,
+  ),
+),
+
+SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+
+
+// Worked hours row structure
+Row(
+mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+children: [
+  Text('Worked hours',
+  
+  
+  style: TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w300,
+    color: Colors.white,
+  ),
+  ),
+  Text("5/30")
+
+],
+
+),
+// TODO Work here later on
+Row(
+children: [
+  Text('Earned'),
+],
+
+)
+       ],),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.dashboard),
+            label: 'Dashboard',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.hourglass_bottom),
+            label: 'log hours',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_month),
+            label: 'Agenda',
+          ),
+        ],
+        selectedItemColor: Colors.amber[800],
+      )
+    
     );
   }
 }
+
