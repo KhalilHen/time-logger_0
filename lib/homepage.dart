@@ -1,4 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'firebase_options.dart';
+
+
+
+
 
 
 
@@ -21,11 +27,16 @@ class MyHomePage extends StatelessWidget {
 }
 
 
+
+
 class HomePage extends StatelessWidget {
   @override
+  int currentIndex = 0;
       final primaryBackground = Colors.blue;
 
   Widget build(BuildContext context) {
+        final user = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
             backgroundColor: primaryBackground,
 
@@ -43,21 +54,19 @@ class HomePage extends StatelessWidget {
         
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          
 
+   Text(
+              'Welcome ${user?.uid ?? 'Guest'}',
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w300,
+                color: Colors.white,
+              ),
+            ),
 
-Text('Welcome',
-
-
-
-  style: TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.w300,
-    color: Colors.white,
-  ),
-),
 
 SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-
 
 // Worked hours row structure
 Row(
@@ -88,6 +97,7 @@ children: [
        ],),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),
