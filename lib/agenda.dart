@@ -5,6 +5,8 @@ import 'firebase_options.dart';
 
 import 'homepage.dart';
 import 'log-hours.dart';
+
+import 'dialogs/log-hours-dialog.dart';
 class Agenda extends    StatelessWidget {
   const Agenda({super.key});
 
@@ -33,12 +35,12 @@ class AgendaPage extends StatefulWidget {
 class _AgendaPageState extends State<AgendaPage> {
 
   int currentIndex = 2;
-  final primaryBackground = Colors.blue;
+  // final primaryBackground = Colors.blue;
 
   @override
   Widget build(BuildContext context) {
    return Scaffold(
-          backgroundColor: primaryBackground,
+          // backgroundColor: primaryBackground,
 
 body:  content(
 
@@ -57,14 +59,20 @@ body:  content(
 //       )
 
 
-floatingActionButton:  ElevatedButton(
-        onPressed: () {
-        //  showDialog(context: context, builder: builder)
-        },
-        child: Text('Log hours',
-        ),
+   floatingActionButton: FloatingActionButton(
+         onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return LogHoursDialog();
+            },
+          );
+         }, 
+  
+        child: Icon(Icons.access_time),
+        backgroundColor: Colors.blue,
+        tooltip: 'Log Hours',
       ),
-
 
 // Bottom nav
     bottomNavigationBar: BottomNavigationBar(
