@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Welcome ${user?.uid ?? 'Guest'}',
+             'Welcome ${user?.displayName ?? user?.email ?? 'Guest'}',
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w300,
@@ -64,13 +64,25 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.white,
                   ),
                 ),
-                Text("5/30"),
+                Text("5/30",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w300,
+                      color: Colors.white,
+                    )),
               ],
             ),
             // TODO Work here later on
             Row(
               children: [
-                Text('Earned'),
+                Text('Earned',
+                style: TextStyle(
+
+fontSize: 20,
+                      fontWeight: FontWeight.w300,
+                      color: Colors.white,
+
+                ),),
               ],
             ),
           ],

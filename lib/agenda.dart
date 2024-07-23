@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 import 'firebase_options.dart';
 
@@ -9,7 +10,9 @@ class Agenda extends    StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
 return MaterialApp(
+  
       title: 'Agenda',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -35,33 +38,32 @@ class _AgendaPageState extends State<AgendaPage> {
   @override
   Widget build(BuildContext context) {
    return Scaffold(
+          backgroundColor: primaryBackground,
+
+body:  content(
+
+),
 
 
+// body: TableCalendar(
+//         firstDay: DateTime.utc(2021, 1, 1),
+//         lastDay: DateTime.utc(2022, 12, 31),
+//         focusedDay: DateTime.now(),
+//       ),
+//       backgroundColor: primaryBackground,
+//       appBar: AppBar(
+//         backgroundColor: Colors.grey,
+//         title: Text('Agenda'),
+//       )
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+floatingActionButton:  ElevatedButton(
+        onPressed: () {
+        //  showDialog(context: context, builder: builder)
+        },
+        child: Text('Log hours',
+        ),
+      ),
 
 
 // Bottom nav
@@ -119,6 +121,29 @@ class _AgendaPageState extends State<AgendaPage> {
 
    );	
   }
+
+  // Table calendar widget
+
+Widget  content() {
+  return Column(
+    
+    children: [
+
+      Container(
+child: TableCalendar(
+          focusedDay: DateTime.now(),
+
+        firstDay: DateTime.now(),
+        lastDay: DateTime.utc(2030, 3, 14),
+        
+      ),
+
+      ),
+    ]
+  );
+}
+
+
 
 
 }
