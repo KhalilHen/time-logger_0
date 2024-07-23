@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'homepage.dart';
 
+import 'sign-up.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
@@ -61,6 +62,12 @@ class LoginScreen extends StatelessWidget {
     }
   }
 
+  _signUp(BuildContext context) {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => SignUpPage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final primaryBackground = Colors.blue;
@@ -92,8 +99,9 @@ class LoginScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: TextFormField(
+                                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+
+                child: TextFormField(
                     obscureText: true,
                     controller: passwordController,
                     validator: validatePassword,
@@ -122,9 +130,8 @@ class LoginScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.cyan,
                       ),
-                      onPressed: () {
-                        // Add sign up logic here
-                      },
+               onPressed: () => _signUp(context),
+
                       child: Text(
                         'Sign up',
                         style: TextStyle(color: Colors.white, fontSize: 20),
