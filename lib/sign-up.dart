@@ -1,15 +1,20 @@
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'homepage.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 
 
 class SignUp extends StatelessWidget {
   const SignUp({Key? key}) : super(key: key);
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +38,7 @@ class SignUpPage    extends StatelessWidget {
 
 
 // DB properties
-  const timelogger  = FirebaseFirestore.instance;
+  // const timelogger  = FirebaseFirestore.instance;
 
  final Users = <String, String> {
 
@@ -44,7 +49,6 @@ class SignUpPage    extends StatelessWidget {
 
 
  
-
   Future<void> _signUp(BuildContext context) async {
     if (_key.currentState!.validate()) {
       try {
@@ -56,7 +60,18 @@ class SignUpPage    extends StatelessWidget {
         );
 
         if (userCredential.user != null) {
+    //                 CollectionReference users = FirebaseFirestore.instance.collection('Users');
+    // users.add({
+      
+    //   'username': usernameController.text,
+    //   'email': emailController.text,
+    //   'password': passwordController.text,
+      
+    //     });
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Successfully signed up')));
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => ()),
+          );
 
 
           // Navigator.of(context).pushReplacement(
@@ -169,7 +184,7 @@ children: [
                         border: OutlineInputBorder(),
                       ),
                     ),
-                    ElevatedButton(onPressed: () => _signUp, child: Text('Sign Up',
+                    ElevatedButton(onPressed: () => _signUp(context), child: Text('Sign Up',
                     
                     
                     )),
@@ -191,6 +206,11 @@ children: [
       ),
     );
   }
-} 
+
+  
+}
+
+
+
 
 

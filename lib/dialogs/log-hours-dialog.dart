@@ -1,4 +1,9 @@
-import 'package:flutter/material.dart';class LogHoursDialog extends StatefulWidget {
+import 'package:flutter/material.dart';
+
+
+
+
+class LogHoursDialog extends StatefulWidget {
  const LogHoursDialog({Key? key}) : super(key: key);
   @override
  _LogHoursDialogState createState() => _LogHoursDialogState();
