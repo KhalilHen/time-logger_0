@@ -7,7 +7,7 @@ import 'homepage.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
+import 'dialogs/sign-up-dialog.dart';
 
 
 class SignUp extends StatelessWidget {
@@ -60,19 +60,14 @@ class SignUpPage    extends StatelessWidget {
         );
 
         if (userCredential.user != null) {
-    //                 CollectionReference users = FirebaseFirestore.instance.collection('Users');
-    // users.add({
-      
-    //   'username': usernameController.text,
-    //   'email': emailController.text,
-    //   'password': passwordController.text,
-      
-    //     });
+  
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Successfully signed up')));
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => ()),
-          );
-
+     showDialog(
+  context: context,
+  builder: (context) {
+    return SignUpDialog(username: 'ExampleUsername');
+  },
+);
 
           // Navigator.of(context).pushReplacement(
           //   MaterialPageRoute(builder: (context) => HomePage()),
@@ -187,8 +182,18 @@ children: [
                     ElevatedButton(onPressed: () => _signUp(context), child: Text('Sign Up',
                     
                     
-                    )),
-    
+                    )), 
+                    ElevatedButton(onPressed: () {
+      showDialog(
+  context: context,
+  builder: (context) {
+    return SignUpDialog(username: 'ExampleUsername');
+  },
+);
+                    }, child: Text('Sign up dialog ',
+                    
+                    
+                    )),  
   
 ],
 
