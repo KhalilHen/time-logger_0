@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -25,6 +24,8 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -42,11 +43,16 @@ class LoginScreen extends StatelessWidget {
   
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  final GlobalKey<FormState> _key = GlobalKey<FormState>(); 
+
+  bool passwordVisible = false;
 
 
 
-
+@override
+  void initState() {
+    passwordVisible = false;
+  }
 
   Future<void> _login(BuildContext context) async {
     if (_key.currentState!.validate()) {
@@ -112,7 +118,7 @@ class LoginScreen extends StatelessWidget {
                                       padding: const EdgeInsets.symmetric(horizontal: 24.0),
 
                 child: TextFormField(
-                    obscureText: true,
+                    obscureText: !passwordVisible,
                     controller: passwordController,
                     validator: validatePassword,
                     decoration: const InputDecoration(
@@ -120,7 +126,25 @@ class LoginScreen extends StatelessWidget {
                       border: OutlineInputBorder(),
 
 
-suffix: IconButton(, ),
+suffixIcon: IconButton( 
+
+icon: Icon(
+
+
+passwordVisible ? Icons.visibility : Icons.visibility_off,
+color: Theme.of(context).primaryColorDark,
+),
+onPressed: () {
+
+setstate(() {
+
+passwordVisible
+
+});
+
+},
+
+),
 
                       icon: Icon(Icons.visibility_off),
                     ),

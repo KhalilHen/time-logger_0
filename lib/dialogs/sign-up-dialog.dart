@@ -21,10 +21,12 @@ class _SignUpDialogState extends State<SignUpDialog> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
+bool?  passwordVisible;
+ 
 
 @override 
 void initState() { 
+    passwordVisible = false;
 
 super.initState();
     emailController.text = widget.email;
@@ -117,12 +119,17 @@ createUser() async {
                   labelText: 'Password',
                   border: OutlineInputBorder(),
                 ),
+
+
+
+                
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a password';
                   }
                   return null;
                 },
+                
               ),
             ],
           ),

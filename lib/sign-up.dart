@@ -28,24 +28,33 @@ class SignUp extends StatelessWidget {
   }
 }
 
-class SignUpPage    extends StatelessWidget {
-   SignUpPage({super.key});
+
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({Key? key}) : super(key: key);
+
+  @override
+  _SignUpPageState createState() => _SignUpPageState();
+}
+
+
+
+class _SignUpPageState    extends State<SignUpPage> {
+
     final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
-
+   bool showPassword = false;
 
 // DB properties
   // const timelogger  = FirebaseFirestore.instance;
 
- final Users = <String, String> {
+@override
+  void initState() {
+    passwordVisible = false;
+  }
 
-
- };
-
-// .collection('Users').doc('Users').set(Users);
 
 
  
@@ -167,7 +176,29 @@ children: [
                         decoration: const InputDecoration(
                           labelText: 'Create password',
                           border: OutlineInputBorder(),
+
+
+                          suffixIcon: IconButton( 
+
+icon: Icon(
+
+                            passwordVisible ? Icons.visibility : Icons.visibility_off,
+
+color: Theme.of(context).primaryColorDark,
+),
+onPressed: () {
+
+setState(() {
+  
+  passwordVisible = !passwordVisible;
+});
+
+},
+
+),
                         ),
+
+                        
                       ),
  ),
 
