@@ -50,6 +50,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
+  final EmailAndUsernameController = TextEditingController();
   final emailController = TextEditingController();
 final usernameController = TextEditingController();
   final passwordController = TextEditingController();
@@ -63,6 +65,22 @@ final usernameController = TextEditingController();
 @override
   void initState() {
     passwordVisible = false;
+  }
+
+  Future<void> _checkForUsername(BuildContext context) async {
+
+
+      //  final usersFind = db.collection('users').where('username', isEqualTo: usernameController.text).get();
+
+//  
+
+db.collection('users').where('username', isEqualTo: usernameController.text).get().then((QuerySnapshot querySnapshot) {
+  querySnapshot.docs.forEach((doc) {
+    print(doc["username"]);
+  });
+});
+
+// final query = usersFind.where('username', isEqualTo: usernameController.text).get();
   }
 
   Future<void> _login(BuildContext context) async {
@@ -80,9 +98,15 @@ final usernameController = TextEditingController();
    
         );
 
+
+     
+
         final docRef = db.collection('users').doc(userCredential.user!.uid);
         docRef.get().then((DocumentSnapshot doc ){
 
+
+
+// 
 final data = doc.data() as Map<String, dynamic>;
 
 if (data['username'] == usernameController.text) {
@@ -145,7 +169,8 @@ if (data['username'] == usernameController.text) {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: TextFormField(
-                    controller: emailController,
+                    // controller: emailController, usernameController,
+                    controller: EmailAndUsernameController,
                     validator: validateEmail,
                     decoration: const InputDecoration(
                       labelText: 'Enter email or username' ,
