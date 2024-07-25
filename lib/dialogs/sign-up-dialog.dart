@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 class SignUpDialog extends StatefulWidget {
   const SignUpDialog({
     Key? key,
-    required this.username,
+    // required this.username,
+    required this.email,
+    required this.password,
   }) : super(key: key);
 
-  final String username;
-
+  // final String username;
+final String email;
+final String password;  
   @override
   _SignUpDialogState createState() => _SignUpDialogState();
 }
@@ -19,12 +22,47 @@ class _SignUpDialogState extends State<SignUpDialog> {
   final passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+
+@override 
+void initState() { 
+
+super.initState();
+    emailController.text = widget.email;
+    passwordController.text = widget.password;
+    
+}
+
   @override
   void dispose() {
     usernameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
+  }
+// Function of creating user in the db collection
+createUser() async {
+      if (_formKey.currentState?.validate() ?? false) {
+              final username = usernameController.text;
+              final email = emailController.text;
+              final password = passwordController.text;
+
+              CollectionReference users = FirebaseFirestore.instance.collection('Users');
+
+              users.add({
+                'username': username,
+                'email': email,
+                'password': password,
+              }).then((_) {
+                Navigator.of(context).pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Successfully signed up')),
+                );
+              }).catchError((error) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Failed to sign up: $error')),
+                );
+              });
+            }
   }
 
   @override
@@ -99,30 +137,10 @@ class _SignUpDialogState extends State<SignUpDialog> {
         ),
         ElevatedButton(
           onPressed: () {
-            if (_formKey.currentState?.validate() ?? false) {
-              final username = usernameController.text;
-              final email = emailController.text;
-              final password = passwordController.text;
-
-              CollectionReference users = FirebaseFirestore.instance.collection('Users');
-
-              users.add({
-                'username': username,
-                'email': email,
-                'password': password,
-              }).then((_) {
-                Navigator.of(context).pop();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Successfully signed up')),
-                );
-              }).catchError((error) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Failed to sign up: $error')),
-                );
-              });
-            }
+            createUser();
+      
           },
-          child: Text('Sign Up'),
+          child: Text('Create your account '),
         ),
       ],
     );

@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/widgets.dart';
 import 'firebase_options.dart';
 import 'homepage.dart';
 
@@ -16,6 +18,9 @@ void main() async {
   }
   runApp(MyApp());
 }
+
+
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -38,6 +43,10 @@ class LoginScreen extends StatelessWidget {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
+
+
+
+
 
   Future<void> _login(BuildContext context) async {
     if (_key.currentState!.validate()) {
@@ -62,6 +71,7 @@ class LoginScreen extends StatelessWidget {
     }
   }
 
+  
   _signUp(BuildContext context) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (context) => SignUpPage()),
@@ -108,6 +118,11 @@ class LoginScreen extends StatelessWidget {
                     decoration: const InputDecoration(
                       labelText: 'Enter password',
                       border: OutlineInputBorder(),
+
+
+suffix: IconButton(, ),
+
+                      icon: Icon(Icons.visibility_off),
                     ),
                   ),
                 ),

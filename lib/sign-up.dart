@@ -65,7 +65,7 @@ class SignUpPage    extends StatelessWidget {
      showDialog(
   context: context,
   builder: (context) {
-    return SignUpDialog(username: 'ExampleUsername');
+    return SignUpDialog(email: emailController.text, password: passwordController.text);
   },
 );
 
@@ -128,17 +128,19 @@ children: [
 
 // TODO Test this on a  real device, if it looks 
 // TODO  better with the padding, or without.
- Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+//  Padding(
+//                     padding: const EdgeInsets.symmetric(horizontal: 24.0),
 
-   child: TextFormField(
-                      controller: usernameController,
-                      decoration: const InputDecoration(
-                        labelText: 'Enter username',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
- ),
+//    child: TextFormField(
+//                       controller: usernameController,
+//                       decoration: const InputDecoration(
+//                         labelText: 'Enter username',
+//                         border: OutlineInputBorder(),
+//                       ),
+//                     ),
+//  ),
+                 SizedBox(height: 20),
+
 
 
  Padding(
@@ -152,33 +154,54 @@ children: [
                         ),
                       ),
  ),
-        
+                         SizedBox(height: 20),
 
- TextFormField(
-  
-                      controller: passwordController,
-                      decoration: const InputDecoration(
-                        labelText: 'Create password',
-                        border: OutlineInputBorder(),
+
+ Padding(
+
+
+      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+   child: TextFormField(
+       obscureText: true,
+                        controller: passwordController,
+                        decoration: const InputDecoration(
+                          labelText: 'Create password',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+ ),
+
+
+
+                SizedBox(height: 20),
+
+                    Padding(
+
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                      child: TextFormField(
+                               obscureText: true,
+
+                        validator: (value) {
+                          if (value != passwordController.text) {
+                            return 'Passwords do not match';
+                          }
+                          else if (value == null || value.isEmpty) {
+                            return 'Please enter the password';
+                          }
+                          return null;
+                        },
+                        // controller: passwordController,
+                        decoration: const InputDecoration(
+                          labelText: 'Confirm password',
+                          border: OutlineInputBorder(),
+                        ),
                       ),
                     ),
 
-                    TextFormField(
-                      validator: (value) {
-                        if (value != passwordController.text) {
-                          return 'Passwords do not match';
-                        }
-                        else if (value == null || value.isEmpty) {
-                          return 'Please enter the password';
-                        }
-                        return null;
-                      },
-                      // controller: passwordController,
-                      decoration: const InputDecoration(
-                        labelText: 'Confirm password',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
+
+                SizedBox(height: 20),
+
+
                     ElevatedButton(onPressed: () => _signUp(context), child: Text('Sign Up',
                     
                     
@@ -187,7 +210,8 @@ children: [
       showDialog(
   context: context,
   builder: (context) {
-    return SignUpDialog(username: 'ExampleUsername');
+    return SignUpDialog(email: emailController.text, password: passwordController.text);
+
   },
 );
                     }, child: Text('Sign up dialog ',
