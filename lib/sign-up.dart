@@ -44,16 +44,15 @@ class _SignUpPageState    extends State<SignUpPage> {
   final passwordController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
-var  passwordVisible;
-
+var passwordVisible;
 
 
 @override 
 void initState() { 
     passwordVisible = true;
 
-
-    
+super.initState()
+;    
 }
 
  
@@ -165,46 +164,29 @@ children: [
                          SizedBox(height: 20),
 
 
- Padding(
-
-
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-   child: TextFormField(
-       obscureText: true,
-                        controller: passwordController,
-                        decoration: const InputDecoration(
-                          labelText: 'Create password',
-                          border: OutlineInputBorder(),
-//              suffixIcon: IconButton( 
-
-// icon: Icon(
-
-
-//     passwordVisible ? Icons.visibility : Icons.visibility_off,
-// color: Theme.of(context).primaryColorDark,
-// ),
-// onPressed: () {
-
-// setState(() {
-//   passwordVisible = !passwordVisible;
-// });(() {
-
-
-
-// });
-
-// },
-
-// ),
-
-
-// suffixIcon: togglePassword(),
+      Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: TextFormField(
+                      obscureText: !passwordVisible,
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                        labelText: 'Create password',
+                        border: OutlineInputBorder(),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            passwordVisible ? Icons.visibility : Icons.visibility_off,
+                            // color: Theme.of(context).primaryColorDark,
+                            color: Colors.black45,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              passwordVisible = !passwordVisible;
+                            });
+                          },
                         ),
-
-                        
                       ),
- ),
-
+                    ),
+                  ),
 
 
                 SizedBox(height: 20),
@@ -213,7 +195,7 @@ children: [
 
                       padding: const EdgeInsets.symmetric(horizontal: 24.0),
                       child: TextFormField(
-                               obscureText: true,
+                               obscureText: !passwordVisible,
 
                         validator: (value) {
                           if (value != passwordController.text) {
@@ -225,9 +207,24 @@ children: [
                           return null;
                         },
                         // controller: passwordController,
-                        decoration: const InputDecoration(
+                        decoration:  InputDecoration(
                           labelText: 'Confirm password',
                           border: OutlineInputBorder(),
+                          
+
+        suffixIcon: IconButton(
+                          icon: Icon(
+                            passwordVisible ? Icons.visibility : Icons.visibility_off,
+                            // color: Theme.of(context).primaryColorDark,
+                            color: Colors.black45,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              passwordVisible = !passwordVisible;
+                            });
+                          },
+                        ),
+                          
                         ),
                       ),
                     ),

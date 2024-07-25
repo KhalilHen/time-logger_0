@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'firebase_options.dart';
 import 'homepage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'sign-up.dart';
 void main() async {
@@ -50,10 +51,12 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
-
+final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
   final GlobalKey<FormState> _key = GlobalKey<FormState>(); 
+// final db = FirebaseFirestore.instance;?
+     final db = FirebaseFirestore.instance;
 
   var  passwordVisible;
 
@@ -66,8 +69,34 @@ class _LoginScreenState extends State<LoginScreen> {
     if (_key.currentState!.validate()) {
       try {
         UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        username: usernameController.text,  
           email: emailController.text,
           password: passwordController.text,
+   
+   
+   
+   
+   
+   
+        );
+
+        final docRef = db.collection('users').doc(userCredential.user!.uid);
+        docRef.get().then((DocumentSnapshot doc ){
+
+final data = doc.data() as Map<String, dynamic>;
+
+if (data['username'] == usernameController.text) {
+        }
+
+ Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomePage()),
+          );
+
+        }
+        
+       , onError: (e) {
+          print('Error: $e');
+       } 
         );
 
 // TODO Add here also check for username via firebase collection
@@ -132,32 +161,32 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: !passwordVisible,
                     controller: passwordController,
                     validator: validatePassword,
-                    decoration: const InputDecoration(
+                    decoration:  InputDecoration(
                       labelText: 'Enter password',
                       border: OutlineInputBorder(),
 
 
-// suffixIcon: IconButton( 
+suffixIcon: IconButton( 
 
-// icon: Icon(
-
-
-// passwordVisible ? Icons.visibility : Icons.visibility_off,
-// color: Theme.of(context).primaryColorDark,
-// ),
-// onPressed: () {
-
-// setState(() {
-// passwordVisible = !passwordVisible;
-// });(() {
+icon: Icon(
 
 
+passwordVisible ? Icons.visibility : Icons.visibility_off,
+color: Theme.of(context).primaryColorDark,
+),
+onPressed: () {
 
-// });
+setState(() {
+passwordVisible = !passwordVisible;
+});(() {
 
-// },
 
-// ),
+
+});
+
+},
+
+),
 
                     ),
                   ),

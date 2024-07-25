@@ -27,7 +27,6 @@ class _SignUpDialogState extends State<SignUpDialog> {
 @override 
 void initState() { 
     passwordVisible = true;
-
 super.initState();
     emailController.text = widget.email;
     passwordController.text = widget.password;
