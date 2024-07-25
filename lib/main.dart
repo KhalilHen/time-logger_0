@@ -67,56 +67,57 @@ final usernameController = TextEditingController();
     passwordVisible = false;
   }
 
+//TODO Work here later on
   Future<void> _checkForUsername(BuildContext context) async {
 
 
-      //  final usersFind = db.collection('users').where('username', isEqualTo: usernameController.text).get();
-
-//  
-
-db.collection('users').where('username',  isEqualTo: usernameController.text).get().then((QuerySnapshot querySnapshot) {
-  querySnapshot.docs.forEach((doc) {
-    print(doc["username"]);
-  });
-});
-
-// final query = usersFind.where('username', isEqualTo: usernameController.text).get();
-  }
-
-  Future<void> _login(BuildContext context) async {
-    if (_key.currentState!.validate()) {
-      try {
-
-       
-
-if (emailController.text.contains('@') ) {
- UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        
-        username: usernameController.text,  
-          email: emailController.text,
-          password: passwordController.text,
-   
-   
-   
-   
-   
-   
-        );
-           if (userCredential.user != null) {
-          print('Login successful');
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomePage()),
-          );
-        } else {
-          print('Oops there went something wrong');
-        }
+// QuerySnapshot snap = await FirebaseFirestore.instance.collection("Users").where("username", isEqualTo: usernameController.text).get();
 
 
+// if (snap.docs.isNotEmpty) {
+//   print('Username found');
+// } else {
+//   print('Username not found');
+// }
+// final users = db.collection('users').where('username',  isEqualTo: EmailAndUsernameController.text).get(); 
+
+// // Correct
+// if (users != null ) {
 
 
-}
-else {
+// print(users);
 
+// if (users  ==  EmailAndUsernameController.text) {
+//   print('Username found'+users.toString());
+
+
+// }
+
+//  else {
+//   print('Username not found');
+// }
+// }
+
+// for each for users 
+
+// final snapshot = await db.collection('users').get();
+// if (snapshot.docs.isNotEmpty) {  
+//   for (var doc in snapshot.docs) {
+//     if (doc['username'] == EmailAndUsernameController.text) {
+//       print('Username found');
+//     } else {
+//       print('Username not found');
+//     }
+//   }
+
+// } QuerySnapshot snap = await FirebaseFirestore.instance.collection("Users").where("username", isEqualTo: usernameController.text).get();
+
+
+// if (snap.docs.isNotEmpty) {
+//   print('Username found');
+// } else {
+//   print('Username not found');
+// }
 // final users = db.collection('users').where('username',  isEqualTo: EmailAndUsernameController.text).get(); 
 
 // // Correct
@@ -152,30 +153,55 @@ else {
 
 
 
-}
+// Tried this 
+// db.collection('users').where('username',  isEqualTo: usernameController.text).get().then((QuerySnapshot querySnapshot) {
+//   querySnapshot.docs.forEach((doc) {
+//     print(doc["username"]);
+//   });
+// });
+
+// final query = usersFind.where('username', isEqualTo: usernameController.text).get();
+  }
+
+    Future<void> _login(BuildContext context) async {
+    if (_key.currentState!.validate()) {
+      try {
 
        
 
-     
+// if (emailController.text.contains('@') ) {
+ UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        
+          email: emailController.text,
+          password: passwordController.text,
+   
+   
+   
+   
+   
+   
+        );
+           if (userCredential.user != null) {
+          print('Login successful');
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomePage()),
+          );
+        } else {
+          print('Oops there went something wrong');
+        }
 
 
 
 
-
-// TODO Add here also check for username via firebase collection
-
-
-
-
-
-
-      
+// }
+ 
       } catch (e) {
         print('Login failed: $e');
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login failed: $e')));
       }
     }
   }
+
 
   _signUp(BuildContext context) {
     Navigator.of(context).pushReplacement(
@@ -205,7 +231,7 @@ else {
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: TextFormField(
                     // controller: emailController, usernameController,
-                    controller: EmailAndUsernameController,
+                    controller: emailController,
                     validator: validateEmail,
                     decoration: const InputDecoration(
                       labelText: 'Enter email or username' ,
@@ -293,8 +319,7 @@ Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
                     ElevatedButton(onPressed: () {
             Future<void> _checkForUsername(BuildContext context) async {          
 final snapshot = await db.collection('Users').get();
-if (snapshot.docs.isNotEmpty) { 
-   
+if (snapshot.docs.isNotEmpty) {  
   for (var doc in snapshot.docs) {
    
   
