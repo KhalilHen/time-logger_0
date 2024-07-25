@@ -74,7 +74,7 @@ final usernameController = TextEditingController();
 
 //  
 
-db.collection('users').where('username', isEqualTo: usernameController.text).get().then((QuerySnapshot querySnapshot) {
+db.collection('users').where('username',  isEqualTo: usernameController.text).get().then((QuerySnapshot querySnapshot) {
   querySnapshot.docs.forEach((doc) {
     print(doc["username"]);
   });
@@ -87,6 +87,7 @@ db.collection('users').where('username', isEqualTo: usernameController.text).get
     if (_key.currentState!.validate()) {
       try {
         UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        
         username: usernameController.text,  
           email: emailController.text,
           password: passwordController.text,
@@ -101,29 +102,52 @@ db.collection('users').where('username', isEqualTo: usernameController.text).get
 
      
 
-        final docRef = db.collection('users').doc(userCredential.user!.uid);
-        docRef.get().then((DocumentSnapshot doc ){
+        // final docRef = db.collection('users').doc(userCredential.user!.uid);
+        // docRef.get().then((DocumentSnapshot doc ){
 
 
 
-// 
-final data = doc.data() as Map<String, dynamic>;
 
-if (data['username'] == usernameController.text) {
-        }
 
- Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomePage()),
-          );
+// Bad
+// // 
+// final data = doc.data() as Map<String, dynamic>;
 
-        }
+// if (data['username'] == usernameController.text) {
+//         }
+
+//  Navigator.of(context).pushReplacement(
+//             MaterialPageRoute(builder: (context) => HomePage()),
+//           );
+
+//         }
         
-       , onError: (e) {
-          print('Error: $e');
-       } 
-        );
+//        , onError: (e) {
+//           print('Error: $e');
+//        } 
+//         );
 
 // TODO Add here also check for username via firebase collection
+
+
+final users = db.collection('users').where('username',  isEqualTo: EmailAndUsernameController.text).get(); 
+
+// Correct
+if (users != null ) {
+
+
+print(users);
+
+if (users  ==  EmailAndUsernameController.text) {
+  print('Username found'+users.toString());
+
+
+}
+
+ else {
+  print('Username not found');
+}
+}
 
 
 
