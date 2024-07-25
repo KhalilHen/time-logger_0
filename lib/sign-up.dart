@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'homepage.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'dialogs/sign-up-dialog.dart';
@@ -45,17 +44,17 @@ class _SignUpPageState    extends State<SignUpPage> {
   final passwordController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
-   bool showPassword = false;
-
-// DB properties
-  // const timelogger  = FirebaseFirestore.instance;
-
-@override
-  void initState() {
-    passwordVisible = false;
-  }
+var  passwordVisible;
 
 
+
+@override 
+void initState() { 
+    passwordVisible = true;
+
+
+    
+}
 
  
   Future<void> _signUp(BuildContext context) async {
@@ -176,26 +175,30 @@ children: [
                         decoration: const InputDecoration(
                           labelText: 'Create password',
                           border: OutlineInputBorder(),
+//              suffixIcon: IconButton( 
+
+// icon: Icon(
 
 
-                          suffixIcon: IconButton( 
+//     passwordVisible ? Icons.visibility : Icons.visibility_off,
+// color: Theme.of(context).primaryColorDark,
+// ),
+// onPressed: () {
 
-icon: Icon(
+// setState(() {
+//   passwordVisible = !passwordVisible;
+// });(() {
 
-                            passwordVisible ? Icons.visibility : Icons.visibility_off,
 
-color: Theme.of(context).primaryColorDark,
-),
-onPressed: () {
 
-setState(() {
-  
-  passwordVisible = !passwordVisible;
-});
+// });
 
-},
+// },
 
-),
+// ),
+
+
+// suffixIcon: togglePassword(),
                         ),
 
                         
@@ -266,7 +269,28 @@ setState(() {
       ),
     );
   }
+Widget togglePassword() {
 
+
+                      return IconButton( 
+
+icon: Icon(
+
+                            passwordVisible ? Icons.visibility : Icons.visibility_off,
+
+color: Theme.of(context).primaryColorDark,
+),
+onPressed: () {
+
+setState(() {
+  
+  passwordVisible = !passwordVisible;
+});
+
+},
+
+);
+}
   
 }
 

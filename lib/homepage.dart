@@ -74,6 +74,7 @@ class _HomePageState extends State<HomePage> {
             ),
             // TODO Work here later on
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text('Earned',
                 style: TextStyle(
@@ -83,6 +84,7 @@ fontSize: 20,
                       color: Colors.white,
 
                 ),),
+                Text("#In progress")
               ],
             ),
           ],

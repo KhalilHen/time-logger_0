@@ -21,12 +21,12 @@ class _SignUpDialogState extends State<SignUpDialog> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-bool?  passwordVisible;
+  var passwordVisible;
  
 
 @override 
 void initState() { 
-    passwordVisible = false;
+    passwordVisible = true;
 
 super.initState();
     emailController.text = widget.email;
@@ -114,10 +114,32 @@ createUser() async {
               SizedBox(height: 16.0),
               TextFormField(
                 controller: passwordController,
-                obscureText: true,
+                obscureText: passwordVisible!,
                 decoration: InputDecoration(
                   labelText: 'Password',
                   border: OutlineInputBorder(),
+
+                  suffixIcon: IconButton( 
+
+icon: Icon(
+
+
+    passwordVisible ? Icons.visibility : Icons.visibility_off,
+color: Theme.of(context).primaryColorDark,
+),
+onPressed: () {
+
+setState(() {
+  passwordVisible = !passwordVisible;
+});(() {
+
+
+
+});
+
+},
+
+),
                 ),
 
 

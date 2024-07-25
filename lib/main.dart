@@ -21,11 +21,14 @@ void main() async {
 
 
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
 
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -38,16 +41,21 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
-  
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
+
   final passwordController = TextEditingController();
+
   final GlobalKey<FormState> _key = GlobalKey<FormState>(); 
 
-  bool passwordVisible = false;
-
-
+  var  passwordVisible;
 
 @override
   void initState() {
@@ -62,7 +70,11 @@ class LoginScreen extends StatelessWidget {
           password: passwordController.text,
         );
 
-        if (userCredential.user != null) {
+// TODO Add here also check for username via firebase collection
+
+
+
+         if (userCredential.user != null) {
           print('Login successful');
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => HomePage()),
@@ -77,7 +89,6 @@ class LoginScreen extends StatelessWidget {
     }
   }
 
-  
   _signUp(BuildContext context) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (context) => SignUpPage()),
@@ -108,7 +119,7 @@ class LoginScreen extends StatelessWidget {
                     controller: emailController,
                     validator: validateEmail,
                     decoration: const InputDecoration(
-                      labelText: 'Enter email',
+                      labelText: 'Enter email or username' ,
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -126,27 +137,28 @@ class LoginScreen extends StatelessWidget {
                       border: OutlineInputBorder(),
 
 
-suffixIcon: IconButton( 
+// suffixIcon: IconButton( 
 
-icon: Icon(
+// icon: Icon(
 
 
-passwordVisible ? Icons.visibility : Icons.visibility_off,
-color: Theme.of(context).primaryColorDark,
-),
-onPressed: () {
+// passwordVisible ? Icons.visibility : Icons.visibility_off,
+// color: Theme.of(context).primaryColorDark,
+// ),
+// onPressed: () {
 
-setstate(() {
+// setState(() {
+// passwordVisible = !passwordVisible;
+// });(() {
 
-passwordVisible
 
-});
 
-},
+// });
 
-),
+// },
 
-                      icon: Icon(Icons.visibility_off),
+// ),
+
                     ),
                   ),
                 ),
