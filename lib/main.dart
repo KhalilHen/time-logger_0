@@ -86,7 +86,11 @@ db.collection('users').where('username',  isEqualTo: usernameController.text).ge
   Future<void> _login(BuildContext context) async {
     if (_key.currentState!.validate()) {
       try {
-        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+
+       
+
+if (emailController.text.contains('@') ) {
+ UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         
         username: usernameController.text,  
           email: emailController.text,
@@ -98,60 +102,7 @@ db.collection('users').where('username',  isEqualTo: usernameController.text).ge
    
    
         );
-
-
-     
-
-        // final docRef = db.collection('users').doc(userCredential.user!.uid);
-        // docRef.get().then((DocumentSnapshot doc ){
-
-
-
-
-
-// Bad
-// // 
-// final data = doc.data() as Map<String, dynamic>;
-
-// if (data['username'] == usernameController.text) {
-//         }
-
-//  Navigator.of(context).pushReplacement(
-//             MaterialPageRoute(builder: (context) => HomePage()),
-//           );
-
-//         }
-        
-//        , onError: (e) {
-//           print('Error: $e');
-//        } 
-//         );
-
-// TODO Add here also check for username via firebase collection
-
-
-final users = db.collection('users').where('username',  isEqualTo: EmailAndUsernameController.text).get(); 
-
-// Correct
-if (users != null ) {
-
-
-print(users);
-
-if (users  ==  EmailAndUsernameController.text) {
-  print('Username found'+users.toString());
-
-
-}
-
- else {
-  print('Username not found');
-}
-}
-
-
-
-         if (userCredential.user != null) {
+           if (userCredential.user != null) {
           print('Login successful');
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => HomePage()),
@@ -159,6 +110,66 @@ if (users  ==  EmailAndUsernameController.text) {
         } else {
           print('Oops there went something wrong');
         }
+
+
+
+
+}
+else {
+
+// final users = db.collection('users').where('username',  isEqualTo: EmailAndUsernameController.text).get(); 
+
+// // Correct
+// if (users != null ) {
+
+
+// print(users);
+
+// if (users  ==  EmailAndUsernameController.text) {
+//   print('Username found'+users.toString());
+
+
+// }
+
+//  else {
+//   print('Username not found');
+// }
+// }
+
+// for each for users 
+
+// final snapshot = await db.collection('users').get();
+// if (snapshot.docs.isNotEmpty) {  
+//   for (var doc in snapshot.docs) {
+//     if (doc['username'] == EmailAndUsernameController.text) {
+//       print('Username found');
+//     } else {
+//       print('Username not found');
+//     }
+//   }
+
+// }
+
+
+
+}
+
+       
+
+     
+
+
+
+
+
+// TODO Add here also check for username via firebase collection
+
+
+
+
+
+
+      
       } catch (e) {
         print('Login failed: $e');
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login failed: $e')));
@@ -278,6 +289,22 @@ Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
                       },
                       child: Text('Home page redirect'),
                     ),
+
+                    ElevatedButton(onPressed: () {
+            Future<void> _checkForUsername(BuildContext context) async {          
+final snapshot = await db.collection('Users').get();
+if (snapshot.docs.isNotEmpty) { 
+   
+  for (var doc in snapshot.docs) {
+   
+  
+  print(doc['username']);
+  }
+
+}
+            }
+
+                    }, child: Text('users'))
                   ],
                 ),
               ],
