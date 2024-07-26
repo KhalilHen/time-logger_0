@@ -1,7 +1,10 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-
+import 'package:flutter/services.dart';
+import '/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 
 class LogHoursDialog extends StatefulWidget {
@@ -19,10 +22,34 @@ final descriptionController = TextEditingController();
 final dateController = TextEditingController();
 
 
+
+late FirebaseAuth auth;
+User? currentUser;
+
+
+
+// final user = Rxn<User>();
+
+late Stream<User?> autStateChanges;
+
+
+
+@override 
+void initState() {
+  super.initState();
+
+  auth = FirebaseAuth.instance;
+  
+  getCurrentUser();
+}
 // TODO retrieve the user id
-User getCurrentUser() {
+void  getCurrentUser() async {
+    currentUser = auth.currentUser;
+
+
   
 }
+
 
 void  logHours() {
 
@@ -33,7 +60,12 @@ if(_formKey.currentState!.validate()) {
 
  try {
  
-
+  if (currentUser == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('User is not authenticated')),
+        );
+        return;
+      }
 
 
 CollectionReference loggedHours = FirebaseFirestore.instance.collection('LoggedHours');
@@ -42,6 +74,9 @@ loggedHours.add({
   'hours': hours,
   'description': description,
   'date': date,
+  'userId': currentUser!.uid,
+  'userLogged': currentUser!.email,
+
 }).then((_) {
   Navigator.of(context).pop();
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Hours logged')));
@@ -74,7 +109,9 @@ Widget build(BuildContext context) {
        children: <Widget>[
          TextFormField(
            controller: hoursController,
-           decoration: const InputDecoration(labelText: 'Hours'),
+           keyboardType:TextInputType.number,
+           decoration: const InputDecoration(labelText: 'Hours',
+           hintText: 'Enter the hours'),
            validator: (value) {
              if (value == null || value.isEmpty) {
                return 'Please enter the hours';
@@ -87,6 +124,7 @@ Widget build(BuildContext context) {
            },
          ),
          TextFormField(
+
            controller: descriptionController,
            decoration: const InputDecoration(labelText: 'Description'),
            validator: (value) {
