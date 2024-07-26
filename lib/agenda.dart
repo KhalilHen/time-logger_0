@@ -41,7 +41,10 @@ class _AgendaPageState extends State<AgendaPage> {
   Widget build(BuildContext context) {
    return Scaffold(
           // backgroundColor: primaryBackground,
-
+appBar: AppBar(
+        backgroundColor: Colors.grey,
+        title: Text('Agenda'),
+      ),
 body:  content(
 
 ),
@@ -132,22 +135,24 @@ body:  content(
 
   // Table calendar widget
 
-Widget  content() {
-  return Column(
-    
-    children: [
 
-      Container(
-child: TableCalendar(
+Widget  content() {
+  return Padding(
+
+padding: const EdgeInsets.all(20),
+
+child: Container(
+  child:  TableCalendar(
           focusedDay: DateTime.now(),
 
         firstDay: DateTime.now(),
         lastDay: DateTime.utc(2030, 3, 14),
         
+        
       ),
 
-      ),
-    ]
+)
+
   );
 }
 

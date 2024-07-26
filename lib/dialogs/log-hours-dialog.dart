@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 
@@ -13,14 +14,48 @@ class LogHoursDialog extends StatefulWidget {
 
 class _LogHoursDialogState extends State<LogHoursDialog> {
  final _formKey = GlobalKey<FormState>();
- final _hoursController = TextEditingController();
-final _descriptionController = TextEditingController();
-final _dateController = TextEditingController();
+ final hoursController = TextEditingController();
+final descriptionController = TextEditingController();
+final dateController = TextEditingController();
+
+
+// TODO retrieve the user id
+User getCurrentUser() {
+  
+}
 
 void  logHours() {
 
 if(_formKey.currentState!.validate()) {
-//  try {}
+  final hours = hoursController.text;
+  final description = descriptionController.text;
+  final date = dateController.text;
+
+ try {
+ 
+
+
+
+CollectionReference loggedHours = FirebaseFirestore.instance.collection('LoggedHours');
+
+loggedHours.add({
+  'hours': hours,
+  'description': description,
+  'date': date,
+}).then((_) {
+  Navigator.of(context).pop();
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Hours logged')));
+
+});
+
+ }
+
+
+ 
+ catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Logging hours failed: $e')));
+
+}
 
 }
   
@@ -38,17 +73,21 @@ Widget build(BuildContext context) {
        mainAxisSize: MainAxisSize.min,
        children: <Widget>[
          TextFormField(
-           controller: _hoursController,
+           controller: hoursController,
            decoration: const InputDecoration(labelText: 'Hours'),
            validator: (value) {
              if (value == null || value.isEmpty) {
                return 'Please enter the hours';
              }
+             else if(value == String) {
+
+              return 'Please enter a number';
+             }
              return null;
            },
          ),
          TextFormField(
-           controller: _descriptionController,
+           controller: descriptionController,
            decoration: const InputDecoration(labelText: 'Description'),
            validator: (value) {
              if (value == null || value.isEmpty) {
@@ -58,11 +97,15 @@ Widget build(BuildContext context) {
            },
          ),
          TextFormField(
-           controller: _dateController,
+           controller: dateController,
            decoration: const InputDecoration(labelText: 'Date'),
            validator: (value) {
              if (value == null || value.isEmpty) {
                return 'Please enter a date';
+             }
+             else if(value == String) {
+
+              return 'Please enter number';
              }
              return null;
            },
@@ -79,6 +122,8 @@ Widget build(BuildContext context) {
      ),
      TextButton(
        onPressed: () {
+
+        logHours();
          if (_formKey.currentState!.validate()) {
            Navigator.of(context).pop();
          }
