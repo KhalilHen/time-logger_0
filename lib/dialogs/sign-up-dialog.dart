@@ -24,7 +24,7 @@ class _SignUpDialogState extends State<SignUpDialog> {
   var passwordVisible;
  
 
-@override 
+@override  
 void initState() { 
     passwordVisible = true;
 super.initState();
@@ -40,7 +40,7 @@ super.initState();
     passwordController.dispose();
     super.dispose();
   }
-// Function of creating user in the db collection
+  // Function of creating user in the db collection
 createUser() async {
       if (_formKey.currentState?.validate() ?? false) {
               final username = usernameController.text;
@@ -99,9 +99,12 @@ createUser() async {
               SizedBox(height: 16.0),
               TextFormField(
                 controller: emailController,
+    enabled: false, 
+
                 decoration: InputDecoration(
                   labelText: 'Email',
                   border: OutlineInputBorder(),
+
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -111,14 +114,18 @@ createUser() async {
                 },
               ),
               SizedBox(height: 16.0),
-              TextFormField(
-                controller: passwordController,
-                obscureText: passwordVisible!,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(),
-
-                  suffixIcon: IconButton( 
+              IgnorePointer(
+              ignoring: true,
+                child: TextFormField(
+                  controller: passwordController,
+                
+                  obscureText: passwordVisible!,
+                 
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    border: OutlineInputBorder(),
+                
+suffixIcon: IconButton( 
 
 icon: Icon(
 
@@ -140,17 +147,19 @@ setState(() {
 
 ),
                 ),
-
-
-
+                  
+             
                 
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a password';
-                  }
-                  return null;
-                },
                 
+                  
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a password';
+                    }
+                    return null;
+                  },
+                  
+                ),
               ),
             ],
           ),
@@ -172,5 +181,9 @@ setState(() {
         ),
       ],
     );
+
+    
   }
+
+
 }

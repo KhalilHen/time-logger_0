@@ -64,6 +64,10 @@ final usernameController = TextEditingController();
 
 @override
   void initState() {
+
+    super.initState();
+
+
     passwordVisible = false;
   }
 
@@ -167,12 +171,15 @@ final usernameController = TextEditingController();
     if (_key.currentState!.validate()) {
       try {
 
-       
+        String lowerCaseEmail = emailController.text.toLowerCase();
+emailController.text = lowerCaseEmail;
+
+
 
 // if (emailController.text.contains('@') ) {
  UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         
-          email: emailController.text,
+          email: lowerCaseEmail,
           password: passwordController.text,
    
    
@@ -247,6 +254,7 @@ final usernameController = TextEditingController();
                     obscureText: !passwordVisible,
                     controller: passwordController,
                     validator: validatePassword,
+                
                     decoration:  InputDecoration(
                       labelText: 'Enter password',
                       border: OutlineInputBorder(),
@@ -350,5 +358,6 @@ String? validateEmail(String? formEmail) {
 
 String? validatePassword(String? formPassword) {
   if (formPassword == null || formPassword.isEmpty) return 'Invalid password';
+
   return null;
 }

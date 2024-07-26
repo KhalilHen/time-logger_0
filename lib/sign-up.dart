@@ -59,9 +59,11 @@ super.initState()
   Future<void> _signUp(BuildContext context) async {
     if (_key.currentState!.validate()) {
       try {
+               String lowerCaseEmail = emailController.text.toLowerCase();
+emailController.text = lowerCaseEmail;
         UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          username: usernameController.text,
-          email: emailController.text,
+          
+          email: lowerCaseEmail,
           password: passwordController.text,
 
         );
