@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'homepage.dart';
 import 'log-hours.dart';
 
 import 'dialogs/log-hours-dialog.dart';
+import 'package:flutter/services.dart';
+import 'package:firebase_core/firebase_core.dart';
 class Agenda extends    StatelessWidget {
   const Agenda({super.key});
 
@@ -36,7 +39,35 @@ class _AgendaPageState extends State<AgendaPage> {
 
   int currentIndex = 2;
   // final primaryBackground = Colors.blue;
+var isLogged;
 
+late FirebaseAuth auth;
+User? currentUser;
+
+
+
+
+late Stream<User?> autStateChanges;
+
+@override 
+void initState() {
+  super.initState();
+
+  auth = FirebaseAuth.instance;
+  
+  retrieveCurrentUser();
+}
+
+Future<void> retrieveCurrentUser() async {
+    currentUser = auth.currentUser;
+
+  }
+
+  void getLoggedHours() {
+
+
+
+  }
   @override
   Widget build(BuildContext context) {
    return Scaffold(
@@ -48,18 +79,6 @@ appBar: AppBar(
 body:  content(
 
 ),
-
-
-// body: TableCalendar(
-//         firstDay: DateTime.utc(2021, 1, 1),
-//         lastDay: DateTime.utc(2022, 12, 31),
-//         focusedDay: DateTime.now(),
-//       ),
-//       backgroundColor: primaryBackground,
-//       appBar: AppBar(
-//         backgroundColor: Colors.grey,
-//         title: Text('Agenda'),
-//       )
 
 
    floatingActionButton: FloatingActionButton(
@@ -147,7 +166,14 @@ child: Container(
 
         firstDay: DateTime.now(),
         lastDay: DateTime.utc(2030, 3, 14),
-        
+       
+        // eventLoader: (day ) {
+        // if(isLogged == true) { 
+
+
+        // } 
+
+        // },
         
       ),
 

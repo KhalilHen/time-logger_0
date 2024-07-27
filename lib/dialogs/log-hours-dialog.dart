@@ -2,11 +2,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import '/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 class LogHoursDialog extends StatefulWidget {
  const LogHoursDialog({Key? key}) : super(key: key);
   @override
@@ -96,6 +98,25 @@ loggedHours.add({
   
 }
 
+Future<void> selectDate() async {
+
+  DateTime? picked =  await  showDatePicker(context: context,
+  
+  
+  initialDate: DateTime.now(),
+  firstDate: DateTime(2024),
+  lastDate: DateTime(2040),
+  );
+if(picked != null) {
+  setState(() {
+    dateController.text = picked.toString().split(' ')[0];
+  });
+
+
+
+}
+}
+
 @override  
 
 
@@ -109,7 +130,7 @@ Widget build(BuildContext context) {
        children: <Widget>[
          TextFormField(
            controller: hoursController,
-           keyboardType:TextInputType.number,
+           keyboardType: TextInputType.number,
            decoration: const InputDecoration(labelText: 'Hours',
            hintText: 'Enter the hours'),
            validator: (value) {
@@ -136,17 +157,20 @@ Widget build(BuildContext context) {
          ),
          TextFormField(
            controller: dateController,
-           decoration: const InputDecoration(labelText: 'Date'),
-           validator: (value) {
-             if (value == null || value.isEmpty) {
-               return 'Please enter a date';
-             }
-             else if(value == String) {
-
-              return 'Please enter number';
-             }
-             return null;
-           },
+           decoration: const InputDecoration(labelText: 'Date',
+          filled: true,
+          prefixIcon: Icon(Icons.calendar_today),
+          enabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
+          focusedBorder: 
+          OutlineInputBorder(borderSide: BorderSide(color: Colors.blue)
+          
+          
+          
+          ),
+          
+          ),
+       readOnly: true,
+           onTap: selectDate,
          ),
        ],
      ),
