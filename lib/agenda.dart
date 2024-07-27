@@ -40,7 +40,6 @@ class _AgendaPageState extends State<AgendaPage> {
 
   int currentIndex = 2;
   // final primaryBackground = Colors.blue;
-var isLogged;
 
 late FirebaseAuth auth;
 User? currentUser;
@@ -75,26 +74,30 @@ if(currentUser != null) {
  
   }
 }
-  
-  Future<void> getLoggedHours() async {
+Future<void> getLoggedHours() async {
+  if (currentUser != null) {
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('LoggedHours')
+          .where('userId', isEqualTo: currentUser!.uid)
+          .orderBy('date', descending: true)
+          .get();
 
 
-if(currentUser != null) {
-QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-    .collection('LoggedHours')
-    .where('userId', isEqualTo: currentUser?.uid)
-    .orderBy("date")
-    .get();
+      for (var doc in querySnapshot.docs) {
+        final data = doc.data() as Map<String, dynamic>;
+        final date = data['date']; 
 
-final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
-print(allData);  
-}
-else {
-  print('No user logged in');
-}
+        print(date);
 
-
+      
+        var isLogged = date;
+      }
+    }catch (err) {
+      print('Unexpected error: ${err}');
+    }
   }
+}
 
 
 
@@ -130,10 +133,7 @@ body:  content(
       
            ),
 
-//            ElevatedButton(onPressed:   getLoggedHours,
-//  child: Text('print logged hours'),
-      
-//            ),
+
         ],
       ),
     
@@ -204,18 +204,27 @@ padding: const EdgeInsets.all(20),
 
 child: Container(
   child:  TableCalendar(
+
+
           focusedDay: DateTime.now(),
 
         firstDay: DateTime.now(),
         lastDay: DateTime.utc(2030, 3, 14),
        
-        // eventLoader: (day ) {
-        // if(isLogged == true) { 
+        eventLoader: (day ) {
+     
+          return [
+if(day == isLogged)
 
 
-        // } 
+          
+  BoxDecoration(
+    color: Colors.blue,
+    shape: BoxShape.circle
+  )
 
-        // },
+          ];
+        },
         
       ),
 
