@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -46,7 +47,6 @@ User? currentUser;
 
 
 
-
 late Stream<User?> autStateChanges;
 
 @override 
@@ -59,19 +59,40 @@ void initState() {
 }
 
 Future<void> retrieveCurrentUser() async {
+
+
+
     currentUser = auth.currentUser;
 
+if(currentUser != null) {
+  // TODO remove this later
+  print(currentUser?.email);
+} else {
+  print('No user logged in');
+
+
+ 
+  }
+}
+
+  Future<void> getLoggedHours() async {
+
+QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('LoggedHours/').where('userId', isEqualTo: currentUser?.uid).get();
+
+
+
+
+final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+print(allData);
+
   }
 
-  void getLoggedHours() {
 
 
-
-  }
+  //
   @override
   Widget build(BuildContext context) {
    return Scaffold(
-          // backgroundColor: primaryBackground,
 appBar: AppBar(
         backgroundColor: Colors.grey,
         title: Text('Agenda'),
@@ -79,7 +100,6 @@ appBar: AppBar(
 body:  content(
 
 ),
-
 
    floatingActionButton: FloatingActionButton(
          onPressed: () {
@@ -90,11 +110,24 @@ body:  content(
             },
           );
          }, 
-  
         child: Icon(Icons.access_time),
         backgroundColor: Colors.blue,
         tooltip: 'Log Hours',
       ),
+      bottomSheet: Column(
+        children: [
+
+           ElevatedButton(onPressed: retrieveCurrentUser, child: Text('retrieve user'),
+      
+           ),
+
+           ElevatedButton(onPressed:   getLoggedHours,
+ child: Text('print logged hours'),
+      
+           ),
+        ],
+      ),
+    
 
 // Bottom nav
     bottomNavigationBar: BottomNavigationBar(

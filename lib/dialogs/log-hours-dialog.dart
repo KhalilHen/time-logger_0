@@ -130,20 +130,30 @@ Widget build(BuildContext context) {
        children: <Widget>[
          TextFormField(
            controller: hoursController,
+           inputFormatters: [FilteringTextInputFormatter.digitsOnly,
+           
+           ],
            keyboardType: TextInputType.number,
            decoration: const InputDecoration(labelText: 'Hours',
            hintText: 'Enter the hours'),
-           validator: (value) {
-             if (value == null || value.isEmpty) {
-               return 'Please enter the hours';
-             }
-             else if(value == String) {
+        validator: (value) {
 
-              return 'Please enter a number';
-             }
-             return null;
-           },
-         ),
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter the hours';
+                  }
+                  
+                  final int? number = int.tryParse(value);
+
+                  if (number == null) {
+                    return 'Please enter a valid number';
+                  }
+                  if (number < 0 || number > 24) {
+                    return 'Please enter a number between 0 and 24';
+                  }
+
+                  return null; // Valid input
+                },
+              ),
          TextFormField(
 
            controller: descriptionController,
