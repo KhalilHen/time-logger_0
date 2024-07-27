@@ -45,6 +45,8 @@ late FirebaseAuth auth;
 User? currentUser;
 
 
+  List<DateTime> highlightedDates = [];
+
 
 late Stream<User?> autStateChanges;
 
@@ -84,20 +86,22 @@ Future<void> getLoggedHours() async {
           .get();
 
 
-      for (var doc in querySnapshot.docs) {
-        final data = doc.data() as Map<String, dynamic>;
-        final date = data['date']; 
+      final dates = querySnapshot.docs.map((doc) {
+          final data = doc.data() as Map<String, dynamic>;
+          final date = data['date'];
+          
+        }).whereType<DateTime>().toList();
 
-        print(date);
 
-      
-        var isLogged = date;
+        print(dates);
+        setState(() {
+          highlightedDates = dates;
+        });
+      } catch (err) {
+        print('Unexpected error: ${err}');
       }
-    }catch (err) {
-      print('Unexpected error: ${err}');
     }
   }
-}
 
 
 
@@ -126,16 +130,8 @@ body:  content(
         backgroundColor: Colors.blue,
         tooltip: 'Log Hours',
       ),
-      bottomSheet: Column(
-        children: [
-
-           ElevatedButton(onPressed: retrieveCurrentUser, child: Text('retrieve user'),
-      
-           ),
-
-
-        ],
-      ),
+  
+    
     
 
 // Bottom nav
@@ -197,45 +193,28 @@ body:  content(
   // Table calendar widget
 
 
-Widget  content() {
-  return Padding(
-
-padding: const EdgeInsets.all(20),
-
-child: Container(
-  child:  TableCalendar(
-
-
-          focusedDay: DateTime.now(),
-
+  Widget content() {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: TableCalendar(
+        focusedDay: DateTime.now(),
         firstDay: DateTime.now(),
         lastDay: DateTime.utc(2030, 3, 14),
-       
-        eventLoader: (day ) {
-     
-          return [
-if(day == isLogged)
-
-
-          
-  BoxDecoration(
-    color: Colors.blue,
-    shape: BoxShape.circle
-  )
-
-          ];
+        eventLoader: (day) {
+          return highlightedDates.where((date) =>
+            date.year == day.year &&
+            date.month == day.month &&
+            date.day == day.day
+          ).toList();
         },
-        
+
       ),
-
-)
-
-  );
+    );
+  }
 }
 
 
 
 
-}
 
 
