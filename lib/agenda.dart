@@ -56,6 +56,7 @@ void initState() {
   auth = FirebaseAuth.instance;
   
   retrieveCurrentUser();
+  getLoggedHours(); 
 }
 
 Future<void> retrieveCurrentUser() async {
@@ -74,16 +75,24 @@ if(currentUser != null) {
  
   }
 }
-
+  
   Future<void> getLoggedHours() async {
 
-QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('LoggedHours/').where('userId', isEqualTo: currentUser?.uid).get();
 
-
-
+if(currentUser != null) {
+QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+    .collection('LoggedHours')
+    .where('userId', isEqualTo: currentUser?.uid)
+    .orderBy("date")
+    .get();
 
 final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
-print(allData);
+print(allData);  
+}
+else {
+  print('No user logged in');
+}
+
 
   }
 
@@ -121,10 +130,10 @@ body:  content(
       
            ),
 
-           ElevatedButton(onPressed:   getLoggedHours,
- child: Text('print logged hours'),
+//            ElevatedButton(onPressed:   getLoggedHours,
+//  child: Text('print logged hours'),
       
-           ),
+//            ),
         ],
       ),
     
