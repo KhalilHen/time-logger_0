@@ -105,14 +105,8 @@ fontSize: 20,
                 ),
               );
               break;
+      
             case 1:
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => LogHoursPage(),
-                ),
-              );
-              break;
-            case 2:
               // Handle Lists tap
 
 
@@ -129,10 +123,7 @@ fontSize: 20,
             icon: Icon(Icons.dashboard),
             label: 'Dashboard',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.hourglass_bottom),
-            label: 'Log hours',
-          ),
+       
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month),
             label: 'Agenda',

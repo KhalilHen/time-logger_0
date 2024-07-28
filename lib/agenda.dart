@@ -38,7 +38,7 @@ class AgendaPage extends StatefulWidget {
 
 class _AgendaPageState extends State<AgendaPage> {
 
-  int currentIndex = 2;
+  int currentIndex = 1;
   // final primaryBackground = Colors.blue;
 
 late FirebaseAuth auth;
@@ -91,7 +91,6 @@ Future<void> getLoggedHours() async {
           final date = data['date'];
           
         }).whereType<DateTime>().toList();
-
 
         print(dates);
         setState(() {
@@ -150,14 +149,8 @@ body:  content(
                 ),
               );
               break;
+      
             case 1:
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => LogHoursPage(),
-                ),
-              );
-              break;
-            case 2:
               // Handle Lists tap
 
 
@@ -174,10 +167,7 @@ body:  content(
             icon: Icon(Icons.dashboard),
             label: 'Dashboard',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.hourglass_bottom),
-            label: 'Log hours',
-          ),
+        
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month),
             label: 'Agenda',

@@ -79,10 +79,7 @@ class _LogHoursState extends State<LogHoursPage> {
             icon: Icon(Icons.dashboard),
             label: 'Dashboard',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.hourglass_bottom),
-            label: 'Log hours',
-          ),
+        
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month),
             label: 'Agenda',

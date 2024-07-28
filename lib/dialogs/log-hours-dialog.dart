@@ -24,7 +24,6 @@ final descriptionController = TextEditingController();
 final dateController = TextEditingController();
 
 
-
 late FirebaseAuth auth;
 User? currentUser;
 
@@ -59,7 +58,7 @@ if(_formKey.currentState!.validate()) {
   final hours = hoursController.text;
   final description = descriptionController.text;
   final date = dateController.text;
-
+ final totalhours;
  try {
  
   if (currentUser == null) {
