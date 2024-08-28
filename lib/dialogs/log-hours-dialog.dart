@@ -68,7 +68,7 @@ if(_formKey.currentState!.validate()) {
         return;
       }
 
-
+  
 CollectionReference loggedHours = FirebaseFirestore.instance.collection('LoggedHours');
 
 loggedHours.add({

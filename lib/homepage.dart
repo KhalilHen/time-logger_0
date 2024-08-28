@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:time_logger_/log-hours.dart';
 import 'firebase_options.dart';
 import 'agenda.dart';
+
+import './controllers/auth.dart';
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
 
@@ -31,12 +33,29 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
 
+  final AuthController authController = AuthController();
+
+
     return Scaffold(
       backgroundColor: primaryBackground,
       appBar: AppBar(
         backgroundColor: Colors.grey,
         title: Text('Home Page'),
-      ),
+        actions: [
+
+
+    IconButton(
+
+            onPressed: () {
+                        authController.logOut(context);
+
+            },
+            icon: Icon(Icons.logout ),
+          ),
+
+        ],
+      
+      ), 
       body: Container(
         height: double.infinity,
         width: double.infinity,

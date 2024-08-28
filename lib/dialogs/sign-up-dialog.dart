@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../controllers/auth.dart';
 class SignUpDialog extends StatefulWidget {
   const SignUpDialog({
     Key? key,
@@ -22,6 +23,8 @@ class _SignUpDialogState extends State<SignUpDialog> {
   final passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   var passwordVisible;
+
+  final AuthController authController = AuthController();
  
 
 @override  
@@ -41,30 +44,7 @@ super.initState();
     super.dispose();
   }
   // Function of creating user in the db collection
-createUser() async {
-      if (_formKey.currentState?.validate() ?? false) {
-              final username = usernameController.text;
-              final email = emailController.text;
-              final password = passwordController.text;
 
-              CollectionReference users = FirebaseFirestore.instance.collection('Users');
-
-              users.add({
-                'username': username,
-                'email': email,
-                'password': password,
-              }).then((_) {
-                Navigator.of(context).pop();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Successfully signed up')),
-                );
-              }).catchError((error) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Failed to sign up: $error')),
-                );
-              });
-            }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +154,14 @@ setState(() {
         ),
         ElevatedButton(
           onPressed: () {
-            createUser();
+             if (_formKey.currentState?.validate() ?? false) {
+              authController.createUser(
+                context,
+                usernameController.text,
+                emailController.text,
+                passwordController.text,
+              );
+            }
       
           },
           child: Text('Create your account '),

@@ -7,6 +7,10 @@ import 'homepage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'sign-up.dart';
+
+
+import './controllers/auth.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
@@ -34,6 +38,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Login',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -51,10 +56,17 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
-  final EmailAndUsernameController = TextEditingController();
-  final emailController = TextEditingController();
-final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+//   final EmailAndUsernameController = TextEditingController();
+//   final emailController = TextEditingController();
+// final usernameController = TextEditingController();
+//   final passwordController = TextEditingController();
+
+
+
+    final AuthController authController = AuthController();
+
+
+
 
   final GlobalKey<FormState> _key = GlobalKey<FormState>(); 
 // final db = FirebaseFirestore.instance;?
@@ -167,47 +179,6 @@ final usernameController = TextEditingController();
 // final query = usersFind.where('username', isEqualTo: usernameController.text).get();
   }
 
-    Future<void> _login(BuildContext context) async {
-    if (_key.currentState!.validate()) {
-      try {
-
-        String lowerCaseEmail = emailController.text.toLowerCase();
-emailController.text = lowerCaseEmail;
-
-
-
-// if (emailController.text.contains('@') ) {
- UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        
-          email: lowerCaseEmail,
-          password: passwordController.text,
-   
-   
-   
-   
-   
-   
-        );
-           if (userCredential.user != null) {
-          print('Login successful');
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomePage()),
-          );
-        } else {
-          print('Oops there went something wrong');
-        }
-
-
-
-
-// }
- 
-      } catch (e) {
-        print('Login failed: $e');
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login failed: $e')));
-      }
-    }
-  }
 
 
   _signUp(BuildContext context) {
@@ -225,7 +196,8 @@ emailController.text = lowerCaseEmail;
       body: Center(
         child: SingleChildScrollView(
           child: Form(
-            key: _key,
+key: authController.key,
+
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -238,7 +210,7 @@ emailController.text = lowerCaseEmail;
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: TextFormField(
                     // controller: emailController, usernameController,
-                    controller: emailController,
+                    controller: authController.emailController,
                     validator: validateEmail,
                     decoration: const InputDecoration(
                       labelText: 'Enter email or username' ,
@@ -252,7 +224,7 @@ emailController.text = lowerCaseEmail;
 
                 child: TextFormField(
                     obscureText: !passwordVisible,
-                    controller: passwordController,
+                    controller: authController.passwordController,
                     validator: validatePassword,
                 
                     decoration:  InputDecoration(
@@ -290,7 +262,11 @@ passwordVisible = !passwordVisible;
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      onPressed: () => _login(context),
+                      onPressed: () {
+
+                                          authController.login(context);
+
+                      } ,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green,
                       ),
@@ -317,27 +293,11 @@ passwordVisible = !passwordVisible;
 
 Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
 
-                        // Navigator.of(context).pushReplacement(
-                        //   MaterialPageRoute(builder: (context) => HomePage()),
-                        // );
                       },
                       child: Text('Home page redirect'),
                     ),
 
-                    ElevatedButton(onPressed: () {
-            Future<void> _checkForUsername(BuildContext context) async {          
-final snapshot = await db.collection('Users').get();
-if (snapshot.docs.isNotEmpty) {  
-  for (var doc in snapshot.docs) {
-   
-  
-  print(doc['username']);
-  }
-
-}
-            }
-
-                    }, child: Text('users'))
+           
                   ],
                 ),
               ],

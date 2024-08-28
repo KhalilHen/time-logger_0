@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:time_logger_/controllers/auth.dart';
 
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -44,7 +45,7 @@ class _AgendaPageState extends State<AgendaPage> {
 late FirebaseAuth auth;
 User? currentUser;
 
-
+ final AuthController authController = AuthController();
   List<DateTime> highlightedDates = [];
 
 
@@ -104,13 +105,28 @@ Future<void> getLoggedHours() async {
 
 
 
-  //
+  
   @override
   Widget build(BuildContext context) {
    return Scaffold(
 appBar: AppBar(
         backgroundColor: Colors.grey,
         title: Text('Agenda'),
+
+
+          actions: [
+
+
+    IconButton(
+
+            onPressed: () {
+                        authController.logOut(context);
+
+            },
+            icon: Icon(Icons.logout ),
+          ),
+
+        ],
       ),
 body:  content(
 
